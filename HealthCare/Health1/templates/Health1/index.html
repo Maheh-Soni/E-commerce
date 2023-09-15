@@ -1,0 +1,81 @@
+{% extends 'Health1/Layout.html' %}
+{% load static %}
+{% block items %}
+
+
+ <!--================= Slider Section =====================-->
+ <div class="slider_container">
+    <div class="slider_main1">
+      <img src="{% static 'images/slider1.avif' %}" alt="" class="slider_img" />
+      <div class="slider_text">
+        <img src="" alt="" class="true" />
+      </div>
+    </div>
+    <div class="slider_main2">
+      <img src="{% static 'images/slider2.webp' %}" alt="" class="slider_img" />
+      <div class="slider_text"></div>
+    </div>
+    <div class="slider_main3">
+      <img src="{% static 'images/slider3.webp' %}" alt="" class="slider_img" />
+      <div class="slider_text"></div>
+    </div>
+
+    <div class="slider_main4">
+      <img src="{% static 'images/slider3.webp' %}" alt="" class="slider_img" />
+      <div class="slider_text"></div>
+    </div>
+  </div>
+
+<!--================= OFFERS =====================-->
+
+  <section class="creative-section">
+    <div class="icon-container">
+        <div class="icon"><i class="fas fa-truck"></i></div>
+        <h2>Free Shipping</h2>
+        <p>On all orders over $49.00</p>
+    </div>
+    <div class="icon-container">
+        <div class="icon"><i class="fas fa-undo"></i></div>
+        <h2>15 Days Returns</h2>
+        <p>Moneyback guarantee</p>
+    </div>
+    <div class="icon-container">
+        <div class="icon"><i class="fas fa-lock"></i></div>
+        <h2>Secure Checkout</h2>
+        <p>Protected by Paypal</p>
+    </div>
+    <div class="icon-container">
+        <div class="icon"><i class="fas fa-gift"></i></div>
+        <h2>Offer and Gift Here</h2>
+        <p>On all orders over $XX.XX</p>
+    </div>
+</section>
+
+
+<!--================= OUR PRODUCTS =====================-->
+
+<div class="menu">
+    <h2 style="font-size: 38px;">Best Seller</h2>
+    <p>A highly efficient slip-ring scanner for today's diagnostic requirements.</p>
+    <hr>
+</div>
+<br><br>
+<div class="grid-container">
+{% for product in data %}
+<div class="product-card">
+    <span class="discount">{{product.offer}}</span>
+    <img class="product-img" src="{{product.image.url}}" alt="Product Image">
+    <div class="rating">
+        <i class="fas fa-star"></i>
+        <i class="fas fa-star"></i>
+        <i class="fas fa-star"></i>
+        <i class="fas fa-star"></i>
+        <i class="far fa-star"></i>
+    </div>
+    <h2 class="product-name">{{product.name}}</h2>
+    <p class="product-price">{{product.productprice}}</p>
+    <a class="shopnow" href="{% url 'shop' %}" type="submit">Shop Now</a>
+</div>
+{% endfor %}
+</div>
+{% endblock %}

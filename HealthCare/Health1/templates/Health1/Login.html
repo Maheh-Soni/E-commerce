@@ -1,0 +1,20 @@
+{% extends 'Health1/Layout.html' %}
+{% load static %}
+{% block items %}
+    <!-- {{fm}} -->
+
+    <a href="{% url 'signup' %}">SIGNUP</a>
+    <a href="{% url 'logout' %}">LOGOUT</a>
+
+    <form action="{% url 'login' %}" method="POST">
+        {% csrf_token %}
+    {% for i in fm %}
+
+    {{i.label_tag}}{{i}} {{i.errors|striptags}}<br><br>
+    {% endfor %}
+    <input type="submit" value="LogIn">
+    </form>
+{% for i in messages %}
+{{i}}
+{% endfor %}
+{% endblock %}

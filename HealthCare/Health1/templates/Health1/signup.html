@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- {{fm}} -->
+
+    <a href="{% url 'login' %}">LOGIN</a>
+    <a href="{% url 'logout' %}">LOGOUT</a>
+
+    <form action="{% url 'signup' %}" method="POST">
+        {% csrf_token %}
+    {% for i in fm %}
+
+    {{i.label_tag}}{{i}} {{i.errors|striptags}}<br><br>
+    {% endfor %}
+    <input type="submit" value="SignUp">
+    </form>
+{% for i in messages %}
+{{i}}
+{% endfor %}
+</body>
+</html>

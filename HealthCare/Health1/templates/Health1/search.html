@@ -1,0 +1,36 @@
+{% extends 'Health1/Layout.html' %}
+{% load static %}
+{% block items %}
+
+<!--================= OUR PRODUCTS =====================-->
+{{msg}}
+<br><br>
+<div class="grid-container">
+{% for product in data %}
+<div class="product-card">
+    <span class="discount">{{product.offer}}</span>
+    <img class="product-img" src="{{product.image.url}}" alt="Product Image">
+    <div class="rating">
+        <i class="fas fa-star"></i>
+        <i class="fas fa-star"></i>
+        <i class="fas fa-star"></i>
+        <i class="fas fa-star"></i>
+        <i class="far fa-star"></i>
+    </div>
+    <h2 class="product-name">{{product.name}}</h2>
+    <p class="product-price">{{product.productprice}}</p>
+<form action="" method="post">
+    {% csrf_token %}
+    <div class="add-to-cart">
+        <input class="quantity" type="number" name="req_quantity">
+        <input type="hidden" name="instock" value="{{ product.productquantity }}">
+        <input type="hidden" name="productid" value="{{ product.id }}">
+        <button class="add-to-cart-button" type="submit">Add to Cart</button>
+    </div>
+</form>
+{% if id == product.id %}  {{ msg }}  {% endif %}
+</div>
+{% endfor %}
+</div>
+
+{% endblock %}

@@ -1,0 +1,175 @@
+{% extends 'Health1/Layout.html' %}
+{% load static %}
+{% block items %}
+
+
+<!-- <form action="" method="post">
+    {% csrf_token %}
+    <input type="number" value="min" name="min" id="">
+    <input type="number" value="max" name="max" id="">
+    <button type="submit">Filter</button>
+</form> -->
+
+<div class="filterprice" style="margin-left: 3%;">
+<div id="selected-price">Select price ₹0</div>
+<form action="" method="post">
+    {% csrf_token %}
+<input type="range" name="max" id="priceRange" id="" min="100" max="2000">
+<input type="submit" value="Submit">
+</form>
+</div>
+
+<script>
+    // JavaScript to display the selected price
+    const priceRange = document.getElementById("priceRange");
+    const selectedPrice = document.getElementById("selected-price");
+
+    priceRange.addEventListener("input", function() {
+        const currentPrice = this.value;
+        selectedPrice.textContent = `₹${currentPrice}`;}
+    );
+</script>
+
+<!--================= LATEST PRODUCTS =====================-->
+
+{% if finaldata %}
+<div class="menu">
+    <h2 style="font-size: 38px;">Latest Product</h2>
+    <p>A highly efficient slip-ring scanner for today's diagnostic requirements.</p>
+    <hr>
+</div>
+{% endif %}
+<br><br>
+
+
+<nav aria-label="Page navigation example" style="float: right;margin-right: 10%;">
+    <ul class="pagination">
+    {% if finaldata.has_previous %}
+      <li class="page-item"><a class="page-link" href="/shop/?page=1">First</a></li>
+      <li class="page-item"><a class="page-link" href="/shop/?page={{finaldata.previous_page_number}}">Previous</a></li>
+    {% endif %}
+
+
+    {% for n in totalpage %}
+      <li class="page-item"><a class="page-link" href="/shop/?page={{n}}">{{n}}</a></li>
+    {% endfor %}
+    
+
+    {% if finaldata.has_next %} 
+      <li class="page-item"><a class="page-link" href="/shop/?page={{finaldata.next_page_number}}">Next</a></li>
+      <li class="page-item"><a class="page-link" href="/shop/?page={{lastpage}}">Last</a></li>
+    {% endif %}
+    </ul>
+</nav>
+
+<br><br><br>
+  <div class="grid-container">
+    {% for product in finaldata %}
+    <div class="product-card">
+        <span class="discount">{{product.offer}}</span>
+        <img class="product-img" src="{{product.image.url}}" alt="Product Image">
+        <div class="rating">
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="far fa-star"></i>
+        </div>
+        <h2 class="product-name">{{product.name}}</h2>
+        <p class="product-price">{{product.productprice}}</p>
+    <form action="" method="POST">
+        {% csrf_token %}
+        <div class="add-to-cart">
+            <input class="quantity" type="number" name="req_quantity">
+            <input type="hidden" name="instock" value="{{ product.productquantity }}">
+            <input type="hidden" name="productid" value="{{ product.id }}">
+            <button class="add-to-cart-button" type="submit">Add to Cart</button>
+        </div>
+    </form>
+    {% if id == product.id %}  {{ msg }}  {% endif %}
+    </div>
+    {% endfor %}
+    </div>
+
+<br><br>
+
+<!--================= OUR PRODUCTS =====================-->
+{% if data %}
+<div class="menu">
+    <h2 style="font-size: 38px;">Best Seller</h2>
+    <p>A highly efficient slip-ring scanner for today's diagnostic requirements.</p>
+    <hr>
+</div>
+{% endif %}
+<br><br>
+<div class="grid-container">
+{% for product in data %}
+<div class="product-card">
+    <span class="discount">{{product.offer}}</span>
+    <img class="product-img" src="{{product.image.url}}" alt="Product Image">
+    <div class="rating">
+        <i class="fas fa-star"></i>
+        <i class="fas fa-star"></i>
+        <i class="fas fa-star"></i>
+        <i class="fas fa-star"></i>
+        <i class="far fa-star"></i>
+    </div>
+    <h2 class="product-name">{{product.name}}</h2>
+    <p class="product-price">{{product.productprice}}</p>
+<form action="" method="post">
+    {% csrf_token %}
+    <div class="add-to-cart">
+        <input class="quantity" type="number" name="req_quantity">
+        <input type="hidden" name="instock" value="{{ product.productquantity }}">
+        <input type="hidden" name="productid" value="{{ product.id }}">
+        <button class="add-to-cart-button" type="submit">Add to Cart</button>
+    </div>
+</form>
+<a href="{% url 'add' product.id %}">click</a>
+{% if id == product.id %}  {{ msg }}  {% endif %}
+</div>
+{% endfor %}
+</div>
+
+
+<!--================= FILTER PRODUCTS =====================-->
+
+{% if data1 %}
+<div style="text-align: center;margin-top: -10%;">
+    <h2 style="font-size: 38px;">Filter Data</h2>
+    <p>A highly efficient slip-ring scanner for today's diagnostic requirements.</p>
+    <hr>
+</div>
+{% endif %}
+
+<div class="grid-container">
+    {% for product in data1 %}
+    {% if product.productprice >= 100 and product.productprice <= mx  %}
+    <div class="product-card">
+        <span class="discount">{{product.offer}}</span>
+        <img class="product-img" src="{{product.image.url}}" alt="Product Image">
+        <div class="rating">
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="far fa-star"></i>
+        </div>
+        <h2 class="product-name">{{product.name}}</h2>
+        <p class="product-price">{{product.productprice}}</p>
+    <form action="" method="post">
+        {% csrf_token %}
+        <div class="add-to-cart">
+            <input class="quantity" type="number" name="req_quantity">
+            <input type="hidden" name="instock" value="{{ product.productquantity }}">
+            <input type="hidden" name="productid" value="{{ product.id }}">
+            <button class="add-to-cart-button" type="submit">Add to Cart</button>
+        </div>
+    </form>
+    {% if id == product.id %}  {{ msg }}  {% endif %}
+    </div>
+    {% endif %}
+    {% endfor %}
+    </div>
+
+{% endblock %}

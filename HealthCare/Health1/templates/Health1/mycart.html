@@ -1,0 +1,59 @@
+{% extends 'Health1/Layout.html' %}
+{% load static %}
+{% block items %}
+
+<div class="shoppingcart">
+    <div class="shoppinghead">
+        <h2>Shopping Cart</h2>
+    </div>
+    <hr>
+    <form action="{% url 'item_payment' %}" method="post">
+        {% csrf_token %}
+    {% for i, j, k in list_final %}
+    <div class="cartitem">
+        <div class="cartimg">
+            <img src="{{i.image.url}}" alt="{{i.name}}">
+        </div>
+        <div class="cartdetail">
+            <p>{{i.productname}}</p>
+            <p>₹{{k}}</p>
+            <span>Only {{i.productquantity}} left in stock</span><br><br>
+            <input type="hidden" name="productname" value="{{i.productname}}" name="" id="">
+            <input type="hidden" name="productprice" value="{{k}}" name="" id=""> 
+              <input type="number" name="req_quantity" id="" placeholder="{{j}}">
+              <input type="hidden" name="productid" value="{{ product.id }}">
+              <input type="submit" name="" value="Pay" id="">
+            </div>
+        </div>
+        {% endfor %}
+    </form>
+
+
+    {% if payment %}
+    <form action="{% url 'payment-status' %}" method="post">    
+    <script
+        src="https://checkout.razorpay.com/v1/checkout.js"
+        data-key="rzp_test_LL3yvrWOvyuM0w"
+        data-amount="{{payment.amount}}" 
+        data-currency="{{payment.currency}}"
+        data-order_id="{{payment.id}}"
+        data-buttontext="Pay with Razorpay"
+        data-name="Item Corp"
+        data-description="A Wild Sheep Chase is the third novel by Japanese author Haruki Murakami"
+        data-image="https://example.com/your_logo.jpg"
+        data-prefill.name="{{payment.name}}"
+        data-prefill.email="you@example.com"
+        data-theme.color="#F37254">
+    </script>
+    <input type="hidden" custom="Hidden Element" name="hidden">
+            
+    </form>
+    {% endif %}
+
+
+    <div class="carttotal">
+        <h2>Subtotal: {{GT}}</h2>
+    </div>
+</div>
+
+{% endblock %}
